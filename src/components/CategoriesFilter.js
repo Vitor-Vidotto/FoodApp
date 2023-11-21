@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { ScrollView, FlatList, StyleSheet, Text, View, Image, Pressable } from "react-native";
-import { categories, colors, recipeList } from "../Constant";
+import { colors, recipeList } from "../Constant";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const CategoriesFilter = () => {
+const CategoriesFilter = ({ categoriesFromFirebase }) => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -20,7 +20,7 @@ const CategoriesFilter = () => {
     <View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.buttonsContainer}>
-          {categories.map((category) => (
+          {categoriesFromFirebase.map((category) => (
             <Text
               key={category.id}
               style={[
@@ -60,7 +60,6 @@ const CategoriesFilter = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",

@@ -1,3 +1,12 @@
+import { ref, get } from "firebase/database";
+import { database } from "../firebaseConfig"; 
+
+let categories = []; // Inicializa a variável categories como uma array vazia
+
+// Referência para a coleção "categories"
+const categoriesRef = ref(database, "categories");
+
+
 export const colors = {
 	COLOR_PRIMARY: "#f96163",
 	COLOR_LIGHT: "#fff",
@@ -7,40 +16,27 @@ export const colors = {
 
 //  Data for categories filter
 
-export const categories = [
-	{
-		id: "01",
-		category: "Café da Manhã",
-	},
-	{
-		id: "02",
-		category: "Almoço",
-	},
-	{
-		id: "03",
-		category: "Jantar",
-	},
-	{
-		id: "04",
-		category: "Japonesa",
-	},
-	{
-		id: "05",
-		category: "Italiana",
-	},
-	{
-		id: "06",
-		category: "Sobremesas",
-	},
-	{
-		id: "07",
-		category: "Vegetarianas",
-	},
-	{
-		id: "08",
-		category: "Comidas do Mar",
-	},
-];
+function getCategoriesFromFirebase() {
+  get(categoriesRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        categories = Object.values(snapshot.val());
+        // Faça algo com as categorias atualizadas
+        console.log("Categorias do Firebase:", categories);
+      } else {
+        console.log("Não foram encontradas categorias.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar categorias do Firebase:", error);
+    });
+}
+
+// Chama a função para buscar e atualizar as categorias
+getCategoriesFromFirebase();
+
+// Exporta a variável categories para uso em outros arquivos
+export { categories };
 
 export const recipeList = [
 	{
